@@ -1,0 +1,15 @@
+{
+  "name": "webchat",
+  "version": "0.0.0",
+  "description": "Webchat",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^3.23.1",
+    "morgan": "^1.10.0",
+    "socket.io": "^2.3.0"
+  }
+}
