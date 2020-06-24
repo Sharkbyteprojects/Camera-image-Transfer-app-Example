@@ -79,7 +79,7 @@ app.get("/service/token/server", (req, res) => {
 });
 app.get("/service/token/veri", (req, res) => {
     const tokens = req.query.token;
-    const iscorr = (tokens === token);
+    const iscorr = tokens === token;
     res.json({veri: iscorr});
 });
 const errinfo = [
