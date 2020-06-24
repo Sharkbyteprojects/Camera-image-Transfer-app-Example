@@ -82,8 +82,8 @@ if (useHttpS) {
     server = https.createServer(optionshttps, app);
     http.createServer((req, res) => {
         const hostname = req.headers.host;
-        res.writeHead(301, { "Location": "https://" + hostname });
-        res.end("301 - HTTP FORBIDDEN\nUSE HTTPS");
+        res.writeHead(302, { "Location": "https://" + hostname });
+        res.end("302 - HTTP FORBIDDEN\nUSE HTTPS");
         console.log("USER CALLED HTTP");
     }).listen(80, () => {
         console.log("ONLINE: http://localhost Redirector");
