@@ -10,14 +10,14 @@
         }, "json");
         $("ul").html('');
         if (data.serverAvail) {
-            $("ul").append('<li class="send" style="color:#ffea00"><a style="color:#c2fa01" href="/service/send">Sender</a></li>');
+            $("ul").append('<li class="send" style="color:#ffea00"><a style="color:#c2fa01" href="/service/send">Sender</a></li><li class="scr"><a style="color:#c2fa01" href="/service/send#d">Send Screen</a></li>');
         }
         $("ul").append('<li class="client" style="color:#ffea00"><a style="color:#c2fa01" href="/service/rec">Client</a></li>');
         var socket = io("/user/index");
         socket.on("change", function (data) {
             $("ul").html('');
             if (data) {
-                $("ul").append('<li class="send" style="color:#ffea00"><a style="color:#c2fa01" href="/service/send">Sender</a></li>');
+                $("ul").append('<li class="send" style="color:#ffea00"><a style="color:#c2fa01" href="/service/send">Sender</a></li><li class="scr"><a style="color:#c2fa01" href="/service/send#d">Send Screen</a></li>');
             }
             $("ul").append('<li class="client" style="color:#ffea00"><a style="color:#c2fa01" href="/service/rec">Client</a></li>');
         });
