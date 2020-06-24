@@ -102,7 +102,17 @@
                     }, 1000 / 6);
                 } else {
                     localStorage.removeItem('token');
-                    document.location.href = "/service/token/unauth";
+                    document.open();
+                    document.write("LOAD ERROR MESSAGE");
+                    document.close();
+                    $.get("/service/token/unauth", function (dd) {
+                        document.open();
+                        var xxxxxx = $(dd).find("data");
+                        var info = $(xxxxxx).find("info");
+                        var text = $(xxxxxx).find("text");
+                        document.write("<body style=\"background-color:black;color:red;\"><h1>" + $(info).html() + "</h1><p>" + $(text).html() + "</p><p><button onclick=\"document.location.reload();\">Retry</button></p></body>");
+                        document.close();
+                    }, "xml");
                 }
             }, "json");
         },"json");

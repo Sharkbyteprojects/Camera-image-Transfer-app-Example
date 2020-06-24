@@ -86,7 +86,6 @@ app.get("/service/token/unauth", (req, res) => {
     res.set({
         'Content-Type': 'text/xml'
     });
-    res.status(401);
     res.sendFile(__dirname+"/views/unauthorized.xml");
 });
 app.get("/about/session", (req, res) => {
