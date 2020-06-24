@@ -80,9 +80,10 @@ function doOn() {
         changeServ.emit('change');
     }
 }
+let count = 0;
 serverNamespace.on('connection', (socket) => {
     socket.emit("welcome", true);
-    console.log('a user connected');
+    serverNamespace.emit("users", count);
     socket.on("imagestream", (data) => {
         doOn();
         if (data !== "data:,") {
@@ -90,16 +91,20 @@ serverNamespace.on('connection', (socket) => {
         }
     });
     socket.on('disconnect', () => {
-        console.log('user disconnected');
         userhere = false;
         changeServ.emit('change');
     });
 });
+changeServ.on('newClient', () => {
+    serverNamespace.emit("users", count);
+});
 clientNamespace.on('connection', (socket) => {
     socket.emit("welcome", true);
-    console.log('a user connected');
+    count++;
+    changeServ.emit('newClient');
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        count--;
+        changeServ.emit('newClient');
     });
 });
 server.listen(80, () => {

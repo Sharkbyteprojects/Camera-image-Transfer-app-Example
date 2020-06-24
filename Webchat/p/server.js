@@ -18,14 +18,16 @@
                         $("h2").attr("style", "color:#00ffc8;");
                         $("p").attr("style", "color:#00ffc8;");
                         $("html").attr("style", "border-color: #00ffc8;");
-                        $("p").text("Connected!");
+                        $("p.msg").text("Connected!");
                     } else if(!disc){
                         conn = true;
-                        $("p").text("Camera on, waiting for Socket");
+                        $("p.msg").text("Camera on, waiting for Socket");
                     }
                     document.getElementById("videos").srcObject = stream;
                 });
-            
+            socket.on("users", function (data) {
+                $("p.usr").text("Listening Users:"+data);
+            });
             socket.on("welcome", function (data) {
                 disc = false;
                 console.log("Connected");
@@ -34,10 +36,10 @@
                     $("h2").attr("style", "color:#00ffc8;");
                     $("p").attr("style", "color:#00ffc8;");
                     $("html").attr("style", "border-color: #00ffc8;");
-                    $("p").text("Connected!");
+                    $("p.msg").text("Connected!");
                 } else {
                     conn = true;
-                    $("p").text("Socket on, waiting for Camera");
+                    $("p.msg").text("Socket on, waiting for Camera");
                 }
             });
             socket.on("disconnect", function () {
@@ -46,7 +48,7 @@
                 $("h2").attr("style", "color:#f00;");
                 $("p").attr("style", "color:#f00;");
                 $("html").attr("style", "border-color: #f00;");
-                $("p").text("Disconnected!");
+                $("p.msg").text("Disconnected!");
             });
                 setInterval(function () {
                     var frame = getFrame();

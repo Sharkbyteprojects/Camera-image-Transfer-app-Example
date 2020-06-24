@@ -9,7 +9,7 @@
             $("h2").attr("style", "color:#00ffc8;");
             $("p").attr("style", "color:#00ffc8;");
             $("html").attr("style", "border-color: #00ffc8;");
-            $("p").text("Connected!");
+        $("p.msg").text("Connected!");
     });
     socket.on("disconnect", function () {
         disc = true;
@@ -17,6 +17,6 @@
         $("h2").attr("style", "color:#f00;");
         $("p").attr("style", "color:#f00;");
         $("html").attr("style", "border-color: #f00;");
-        $("p").text("Disconnected!");
+        $("p.msg").text("Disconnected!");
     });
 });
