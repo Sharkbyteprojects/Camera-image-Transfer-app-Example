@@ -69,10 +69,10 @@ const io = require('socket.io')(server);
 const serverNamespace = io.of('/server');
 const clientNamespace = io.of('/client');
 const indexNamespace = io.of("/user/index");
-indexNamespace.on('connection', (socket) => {
-    changeServ.on('change', () => {
-        socket.emit("change", !userhere);
-    });
+/*indexNamespace.on('connection', (socket) => {
+});*/
+changeServ.on('change', () => {
+    indexNamespace.emit("change", !userhere);
 });
 function doOn() {
     if (!userhere) {
