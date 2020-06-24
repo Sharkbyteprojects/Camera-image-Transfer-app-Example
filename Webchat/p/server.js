@@ -72,16 +72,20 @@
         $("html").attr("style", "border-color: #f00;");
         $("p.msg").text("Disconnected!");
       });
+        var erroee = false;
         socket.on("unauth", function () {
-            console.error("Unauthorized - EXPIRED");
-            $.get("/service/token/err/exp", function (dd) {
-                document.open();
-                var xxxxxx = $(dd).find("data");
-                var info = $(xxxxxx).find("info");
-                var text = $(xxxxxx).find("text");
-                document.write("<body style=\"background-color:black;color:red;\"><h1>" + $(info).html() + "</h1><p>" + $(text).html() + "</p><p><button onclick=\"document.location.reload();\">Type a new Token in</button></p></body>");
-                document.close();
-            }, "xml");
+            if (!erroee) {
+                erroee = true;
+                console.error("Unauthorized - EXPIRED");
+                $.get("/service/token/err/exp", function (dd) {
+                    document.open();
+                    var xxxxxx = $(dd).find("data");
+                    var info = $(xxxxxx).find("info");
+                    var text = $(xxxxxx).find("text");
+                    document.write("<body style=\"background-color:black;color:red;\"><h1>" + $(info).html() + "</h1><p>" + $(text).html() + "</p><p><button onclick=\"document.location.reload();\">Type a new Token in</button></p></body>");
+                    document.close();
+                }, "xml");
+            }
         });
         $.get("/service/token/server", function (dataset) {
             var tokens;

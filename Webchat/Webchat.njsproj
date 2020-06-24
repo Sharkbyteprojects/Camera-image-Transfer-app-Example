@@ -52,6 +52,9 @@
     <Content Include="views\clie.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\expired.xml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\index.html">
       <SubType>Code</SubType>
     </Content>
