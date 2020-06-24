@@ -82,12 +82,24 @@ app.get("/service/token/veri", (req, res) => {
     const iscorr = (tokens === token);
     res.json({veri: iscorr});
 });
-app.get("/service/token/unauth", (req, res) => {
-    res.set({
-        'Content-Type': 'text/xml'
+const errinfo = [
+    {
+        path: "/service/token/err/unauth",
+        file: __dirname + "/views/unauthorized.xml"
+    },
+    {
+        path: "/service/token/err/exp",
+        file: __dirname + "/views/expired.xml"
+    }
+];
+for (let errx of errinfo) {
+    app.get(errx.path, (req, res) => {
+        res.set({
+            'Content-Type': 'text/xml'
+        });
+        res.sendFile(errx.file);
     });
-    res.sendFile(__dirname+"/views/unauthorized.xml");
-});
+}
 app.get("/about/session", (req, res) => {
     let prevHere = false;
     if (req.session.prevHere) {
