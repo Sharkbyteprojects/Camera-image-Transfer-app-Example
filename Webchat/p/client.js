@@ -1,7 +1,23 @@
 ﻿$(document).ready(function(){
     var socket = io("/client");
+    function xxbtn() {
+        $("button").attr("style", "display:block;");
+        $("button").click(function () {
+            var a = document.createElement("a");
+            a.href = $("img.video").attr("src");
+            a.download = "screenshot.png";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    }
+    var b = false;
     socket.on("imagestream", function (data) {
         $("img.video").attr("src", data);
+        if (!b) {
+            b = true;
+            xxbtn();
+        }
     });
     socket.on("welcome", function (data) {
         console.log("Connected");
@@ -19,4 +35,5 @@
         $("html").attr("style", "border-color: #f00;");
         $("p.msg").text("Disconnected!");
     });
+    
 });
