@@ -19,9 +19,9 @@ const helmet = require("helmet")();
 const crypto = require("crypto");
 const hash = crypto.createHash('md5');
 hash.update(Math.random().toString());
-const hasht = crypto.createHash('sha256');
-hasht.update(Math.random().toString());
-const token = hasht.digest("hex");
+const token = crypto.createHmac('sha256', Math.random().toString())
+    .update(Math.random().toString())
+    .digest('hex');
 console.log(`Token: ${token}\nYou need the token for auth on the webpage!\n\n`);
 const secretOfSess = hash.digest('hex');
 const session = require('express-session');
