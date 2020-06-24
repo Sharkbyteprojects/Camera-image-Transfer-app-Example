@@ -11,7 +11,6 @@
     try {
       var conn = false;
       var disc = false;
-      if (document.location.hash !== "#d") {
         navigator.mediaDevices
           .getUserMedia({ video: { width: 426, height: 300 } })
           .then(function (stream) {
@@ -27,23 +26,6 @@
             }
             document.getElementById("videos").srcObject = stream;
           });
-      } else {
-        navigator.mediaDevices
-          .getDisplayMedia()
-          .then(function (stream) {
-            if (conn) {
-              $("video.video#videos").attr("style", "border-color: #00ffc8;");
-              $("h2").attr("style", "color:#00ffc8;");
-              $("p").attr("style", "color:#00ffc8;");
-              $("html").attr("style", "border-color: #00ffc8;");
-              $("p.msg").text("Connected!");
-            } else if (!disc) {
-              conn = true;
-              $("p.msg").text("Camera on, waiting for Socket");
-            }
-            document.getElementById("videos").srcObject = stream;
-          });
-      }
       socket.on("users", function (data) {
         $("p.usr").text("Listening Users:" + data);
       });
