@@ -75,7 +75,7 @@ app.get("/about/session", (req, res) => {
     } else {
         req.session.prevHere = true;
     }
-    res.json({ prevHere: prevHere, "time": req.session.cookie.maxAge });
+    res.json({ prevHere: prevHere, "time": req.session.cookie.maxAge, "host": req.headers.host });
 });
 let server;
 if (useHttpS) {
@@ -84,6 +84,7 @@ if (useHttpS) {
         const hostname = req.headers.host;
         res.writeHead(403, { "Location": "https://" + hostname });
         res.end("403 - HTTP FORBIDDEN\nUSE HTTPS");
+        console.log("USER CALLED HTTP");
     }).listen(80, () => {
         console.log("ONLINE: http://localhost Redirector");
     });
