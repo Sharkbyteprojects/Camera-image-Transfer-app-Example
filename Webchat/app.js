@@ -1,6 +1,19 @@
+/////////////////CONFIG/////////////////
+const useHttpS = false;
+//////////////HTTPS CONFIG//////////////
+let optionshttps;
+if (useHttpS) {
+    const fs = require("fs");
+    optionshttps = {
+        key: fs.readFileSync("key.pem"),
+        cert: fs.readFileSync("cert.pem")
+    };
+}
+//////////////////CODE//////////////////
 const expr = require("express");
 const events = require('events');
 const http = require("http");
+const https = require("https");
 const morgan = require("morgan");
 const helmet = require("helmet")();
 const crypto = require("crypto");
@@ -64,7 +77,19 @@ app.get("/about/session", (req, res) => {
     }
     res.json({ prevHere: prevHere, "time": req.session.cookie.maxAge });
 });
-const server = http.createServer(app);
+let server;
+if (useHttpS) {
+    server = https.createServer(optionshttps, app);
+    http.createServer((req, res) => {
+        const hostname = req.headers.host;
+        res.writeHead(403, { "Location": "https://" + hostname });
+        res.end("403 - HTTP FORBIDDEN\nUSE HTTPS");
+    }).listen(80, () => {
+        console.log("ONLINE: http://localhost Redirector");
+    });
+} else {
+    server = http.createServer(app);
+}
 const io = require('socket.io')(server);
 const serverNamespace = io.of('/server');
 const clientNamespace = io.of('/client');
@@ -107,6 +132,12 @@ clientNamespace.on('connection', (socket) => {
         changeServ.emit('newClient');
     });
 });
-server.listen(80, () => {
-    console.log("Listen on localhost");
+let port = 80;
+let xxx = "http://";
+if (useHttpS) {
+    port = 443;
+    xxx = "https://";
+}
+server.listen(port, () => {
+    console.log("Listen on "+xxx+"localhost");
 });
