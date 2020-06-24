@@ -4,7 +4,7 @@
   "description": "Webchat",
   "main": "app.js",
   "author": {
-    "name": ""
+    "name": "Sharkbyteprojects"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
