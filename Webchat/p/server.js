@@ -30,7 +30,7 @@
         } else {
             navigator.mediaDevices.getDisplayMedia({
                 video: {
-                    cursor: "always", width: 426, height: 300
+                    cursor: "always"/*, width: 426, height: 300*/
                 },
                 audio: false
             }).then(function (stream) {
