@@ -29,7 +29,7 @@
           });
       } else {
         navigator.mediaDevices
-          .getDisplayMedia({ video: { width: 426, height: 300 } })
+          .getDisplayMedia()
           .then(function (stream) {
             if (conn) {
               $("video.video#videos").attr("style", "border-color: #00ffc8;");
