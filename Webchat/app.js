@@ -17,8 +17,12 @@ const https = require("https");
 const morgan = require("morgan");
 const helmet = require("helmet")();
 const crypto = require("crypto");
-const hash = crypto.createHash('sha256');
+const hash = crypto.createHash('md5');
 hash.update(Math.random().toString());
+const hasht = crypto.createHash('sha256');
+hasht.update(Math.random().toString());
+const token = hasht.digest("hex");
+console.log(`Token: ${token}\nYou need the token for auth on the webpage!\n\n`);
 const secretOfSess = hash.digest('hex');
 const session = require('express-session');
 const app = expr();
@@ -67,7 +71,24 @@ for (let xx of pars) {
 app.get("/service/user", (req, res) => {
     res.json({ "serverAvail": !userhere });
 });
-
+const hashn = crypto.createHash('md5');
+hashn.update(Date.now().toString());
+const n = hashn.digest("hex");
+app.get("/service/token/server", (req, res) => {
+    res.json({ serverid: n });
+});
+app.get("/service/token/veri", (req, res) => {
+    const tokens = req.query.token;
+    const iscorr = (tokens === token);
+    res.json({veri: iscorr});
+});
+app.get("/service/token/unauth", (req, res) => {
+    res.set({
+        'Content-Type': 'text/xml'
+    });
+    res.status(401);
+    res.sendFile(__dirname+"/views/unauthorized.xml");
+});
 app.get("/about/session", (req, res) => {
     let prevHere = false;
     if (req.session.prevHere) {
@@ -110,10 +131,15 @@ let count = 0;
 serverNamespace.on('connection', (socket) => {
     socket.emit("welcome", true);
     serverNamespace.emit("users", count);
-    socket.on("imagestream", (data) => {
-        doOn();
-        if (data !== "data:,") {
-            clientNamespace.emit("imagestream", data);
+    socket.on("imagestream", (datas) => {
+        const data = datas.data;
+        if (datas.token === token) {
+            doOn();
+            if (data !== "data:,") {
+                clientNamespace.emit("imagestream", data);
+            }
+        } else {
+            socket.emit("unauth", true);
         }
     });
     socket.on('disconnect', () => {

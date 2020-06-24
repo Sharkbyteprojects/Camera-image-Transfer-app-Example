@@ -11,7 +11,7 @@
     try {
       var conn = false;
         var disc = false;
-        if (document.location.hash != "#d") {
+        if (document.location.hash !== "#d") {
             navigator.mediaDevices
                 .getUserMedia({ video: { width: 426, height: 300 } })
                 .then(function (stream) {
@@ -72,11 +72,40 @@
         $("html").attr("style", "border-color: #f00;");
         $("p.msg").text("Disconnected!");
       });
-      setInterval(function () {
-        var frame = getFrame();
-        socket.emit("imagestream", frame);
-        console.log(frame);
-      }, 1000 / 4);
+        socket.on("unauth", function () {
+            console.error("Unauthorized");
+            document.location.reload();
+        });
+        $.get("/service/token/server", function (dataset) {
+            var tokens;
+            if (localStorage.getItem('token') && dataset.serverid === localStorage.getItem('server')) {
+                tokens = localStorage.getItem('token');
+            } else {
+                tokens = prompt("SHARKAUTH\nEnter your Token:");
+            }
+            if (!tokens) {
+                tokens = prompt("SHARKAUTH\nEnter your Token:");
+            }
+            $.get("/service/token/veri", { token: tokens }, function (datas) {
+                if (datas.veri) {
+                    setInterval(function () {
+                        try {
+                            localStorage.setItem('token', tokens);
+                            localStorage.setItem("server", dataset.serverid);
+                        } catch (e) {
+                            console.warn("Localstorage Error");
+                        }
+                        var frame = getFrame();
+                        const ds = { data: frame, token: tokens };
+                        socket.emit("imagestream", ds);
+                        console.log(frame);
+                    }, 1000 / 6);
+                } else {
+                    localStorage.removeItem('token');
+                    document.location.href = "/service/token/unauth";
+                }
+            }, "json");
+        },"json");
     } catch (e) {
       console.error(e);
       $("body").append(
