@@ -1,4 +1,7 @@
 ﻿(function(){
+	navigator.mediaDevices.getUserMedia = navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia;
     function getFrame() {
         const canvas = document.createElement("canvas");
         canvas.width = document.getElementById("videos").videoWidth;
