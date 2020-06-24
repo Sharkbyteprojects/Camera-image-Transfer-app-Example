@@ -93,6 +93,9 @@
                 tokens = localStorage.getItem('token');
             } else {
                 tokens = prompt("SHARKAUTH\nEnter your Token:");
+                if (tokens === null) {
+                    document.location.href = "/";
+                }
             }
             if (!tokens) {
                 tokens = prompt("SHARKAUTH\nEnter your Token:");
