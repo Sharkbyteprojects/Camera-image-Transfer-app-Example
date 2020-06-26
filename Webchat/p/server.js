@@ -1,4 +1,6 @@
-﻿(function () {
+﻿import $ from "./jquery";
+import io from "./socket";
+(function () {
   function getFrame() {
     const canvas = document.createElement("canvas");
     canvas.width = document.getElementById("videos").videoWidth;

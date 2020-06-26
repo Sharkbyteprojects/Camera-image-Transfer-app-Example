@@ -6,11 +6,23 @@
   "author": {
     "name": "Sharkbyteprojects"
   },
+  "scripts": {
+    "build": "gulp"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "helmet": "^3.23.1",
     "morgan": "^1.10.0",
     "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^7.1.0",
+    "webpack-stream": "^5.2.1"
   }
 }

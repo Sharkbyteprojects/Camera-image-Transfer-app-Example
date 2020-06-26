@@ -1,4 +1,7 @@
-﻿$(document).ready(function(){
+﻿import $ from "./jquery";
+import io from "./socket";
+
+$(document).ready(function () {
     var socket = io("/client");
     function xxbtn() {
         $("button").attr("style", "display:block;");

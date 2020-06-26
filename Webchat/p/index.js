@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿import $ from "./jquery";
+import io from "./socket";
+
+$(document).ready(function () {
     $.get("/service/user", function (data) {
         $.get("/about/session", function (data) {
             if (data.prevHere) {
