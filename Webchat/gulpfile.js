@@ -3,6 +3,7 @@ const webpack = require('webpack-stream');
 const babel = require('gulp-babel');
 const imagemin = require('gulp-imagemin');
 const cleanCSS = require('gulp-clean-css');
+const minify = require("gulp-babel-minify");
 const htmlmin = require('gulp-htmlmin');
 
 const name = ["server.js", "client.js", "index.js"];
@@ -10,11 +11,16 @@ let arr = [];
 for (let namee of name) {
     arr.push(() => {
         return gulp.src('p/' + namee)
-            .pipe(babel({}))
             .pipe(webpack({
                 mode: "production",
                 output: {
                     filename: namee
+                }
+            }))
+            .pipe(babel({}))
+            .pipe(minify({
+                mangle: {
+                    keepClassName: false
                 }
             }))
             .pipe(gulp.dest('dist/p/'));

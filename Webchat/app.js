@@ -147,7 +147,11 @@ serverNamespace.on('connection', (socket) => {
         if (datas.token === token) {
             doOn();
             if (data !== "data:,") {
-                clientNamespace.emit("imagestream", data);
+                if (datas.hash === crypto.createHash('md5').update(data).digest("hex")) {
+                    clientNamespace.emit("imagestream", data);
+                } else {
+                    socket.emit("hash-veri-failed");
+                }
             }
         } else {
             socket.emit("unauth", true);

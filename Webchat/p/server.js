@@ -1,5 +1,7 @@
 ﻿import $ from "./jquery";
 import io from "./socket";
+import hashlib from "./hashlib";
+
 (function () {
   function getFrame() {
     const canvas = document.createElement("canvas");
@@ -9,7 +11,10 @@ import io from "./socket";
     return canvas.toDataURL("image/png");
   }
   $(document).ready(function () {
-    var socket = io("/server");
+      var socket = io("/server");
+      socket.on("hash-veri-failed", () => {
+          console.warn("Sended incorrect Data");
+      });
     try {
       var conn = false;
         var disc = false;
@@ -112,7 +117,7 @@ import io from "./socket";
                             console.warn("Localstorage Error");
                         }
                         var frame = getFrame();
-                        const ds = { data: frame, token: tokens };
+                        const ds = { data: frame, token: tokens, hash: hashlib(2, frame) };
                         socket.emit("imagestream", ds);
                         console.log(frame);
                     }, 1000 / 6);
